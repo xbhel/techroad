@@ -17,33 +17,47 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- declare dependencies version -->
+        <!-- declare dependency versions -->
+        <javafx.version>19</javafx.version>
+        <lombok.version>1.18.20</lombok.version>
+        <log4j.version>2.17.1</log4j.version>
+        <!-- test -->
         <mockito.version>4.2.0</mockito.version>
+        <junit.version>5.8.2</junit.version>
+        <assertj.version>3.18.1</assertj.version>
+        <!-- data format -->
+        <snakeyaml.version>1.33</snakeyaml.version>
+        <jackson.version>2.14.2</jackson.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-base</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>[1.18.20, )</version>
+                <version>[${lombok.version}, )</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
-                <version>2.17.1</version>
+                <version>${log4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>[3.18.1, )</version>
+                <version>[${assertj.version}, )</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.8.2</version>
+                <version>${junit.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -58,6 +72,16 @@
                 <artifactId>mockito-inline</artifactId>
                 <version>[${mockito.version}, )</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
