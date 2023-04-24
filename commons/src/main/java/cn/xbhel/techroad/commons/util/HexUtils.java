@@ -43,7 +43,8 @@ public final class HexUtils {
 
     public static boolean isHexSequence(byte[] hexSequence) {
         // 序列的长度为奇数，要求 16 进制成对出现
-        // 另一种处理方式：不要求成对出现，如果序列为奇数，则 decode 时在开头补 ‘0’，保持整个 api 风格一致
+        // 另一种处理方式：不要求成对出现，如果序列为奇数，则 decode 时在开头补 ‘0’.
+        // 但要保持整个 api 风格一致，既允许奇数 decode 就补 ‘0’，否则奇数长度就不算 16进制序列
         if ((hexSequence.length & 0x01) != 0) {
             return false;
         }
