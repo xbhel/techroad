@@ -1,25 +1,20 @@
 package cn.xbhel.techroad.commons.cache;
 
-import java.util.LinkedHashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
- * LRU(least recently used) 缓存，基于 LinkedHashMap 访问顺序(access-order) 特性实现，
- * LinkedHashMap 中的 key 每被访问一次，这个 key 就会移动到链表头部. 这是一个线程不安全的类.
- *
+ * 抽象类，缓存的简单实现
  * @author xbhel
  */
-public class LRUCache<K, V> implements Cache<K, V> {
+public abstract class AbstractSimpleCache<K, V> implements Cache<K, V> {
+
+    private static final long serialVersionUID = 1L;
 
     private final Map<K, V> cacheMap;
 
-    public LRUCache(final int maxSize) {
-        this.cacheMap = new LinkedHashMap<>(maxSize + 1, 1, true){
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-                return this.size() > maxSize;
-            }
-        };
+    protected AbstractSimpleCache(Map<K, V> cacheMap) {
+        this.cacheMap = cacheMap;
     }
 
     @Override
@@ -50,5 +45,10 @@ public class LRUCache<K, V> implements Cache<K, V> {
     @Override
     public void clear() {
         this.cacheMap.clear();
+    }
+
+    @Override
+    public Iterator<Map.Entry<K, V>> iterator() {
+        return this.cacheMap.entrySet().iterator();
     }
 }

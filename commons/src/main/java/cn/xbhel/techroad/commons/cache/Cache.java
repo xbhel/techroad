@@ -1,5 +1,8 @@
 package cn.xbhel.techroad.commons.cache;
 
+import java.io.Serializable;
+import java.util.Map;
+
 /**
  * 定义一个缓存接口，支持缓存的 CRUD
  *
@@ -7,7 +10,7 @@ package cn.xbhel.techroad.commons.cache;
  * @param <V> 缓存 value 的类型
  * @author xbhel
  */
-public interface Cache<K, V> {
+public interface Cache<K, V> extends Iterable<Map.Entry<K, V>>, Serializable {
     /**
      * 添加元素至缓存中
      */
