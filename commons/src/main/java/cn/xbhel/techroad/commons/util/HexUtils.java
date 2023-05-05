@@ -1,8 +1,8 @@
 package cn.xbhel.techroad.commons.util;
 
 /**
+ * 16 进制编码和解码
  * @author xbhel
- * @description 对数据进行 16 进制编码和解码
  */
 public final class HexUtils {
 
