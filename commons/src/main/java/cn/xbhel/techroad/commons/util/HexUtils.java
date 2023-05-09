@@ -1,5 +1,7 @@
 package cn.xbhel.techroad.commons.util;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * 16 进制编码和解码
  * @author xbhel
@@ -10,6 +12,10 @@ public final class HexUtils {
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     private HexUtils() {
+    }
+
+    public static String encodeHexString(byte[] data) {
+        return new String(encode(data), StandardCharsets.UTF_8);
     }
 
     public static byte[] encode(byte[] data) {
@@ -24,6 +30,10 @@ public final class HexUtils {
             out[cursor++] = HEX_CHARS[data[i] & 0xf];
         }
         return out;
+    }
+
+    public static byte[] decode(String data) {
+        return decode(data.getBytes(StandardCharsets.UTF_8));
     }
 
     public static byte[] decode(byte[] data) {
