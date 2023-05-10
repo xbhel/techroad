@@ -1,4 +1,4 @@
-package cn.xbhel.techroad.commons.secure;
+package cn.xbhel.techroad.commons.util;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author xbhel
  */
-public class MessageDigester {
+public final class DigestUtils {
 
     private static final int DEFAULT_BUFFER_SIZE = 4096;
     /**
@@ -18,7 +18,7 @@ public class MessageDigester {
      */
     private final MessageDigest digest;
 
-    public MessageDigester(MessageDigest digest) {
+    private DigestUtils(MessageDigest digest) {
         this.digest = digest;
     }
 
@@ -28,10 +28,18 @@ public class MessageDigester {
         return digester.digest();
     }
 
+    public String digestToHex(byte[] data) {
+        return HexUtils.encodeHexString(digest(data));
+    }
+
     public byte[] digest(File file) throws IOException {
         try (var in = new BufferedInputStream(new FileInputStream(file))) {
             return digest(in);
         }
+    }
+
+    public String digestToHex(File file) throws IOException {
+        return HexUtils.encodeHexString(digest(file));
     }
 
     public byte[] digest(InputStream in) throws IOException {
@@ -43,12 +51,20 @@ public class MessageDigester {
         return digester.digest();
     }
 
-    public static MessageDigester of(String algorithm) {
+    public String digestToHex(InputStream in) throws IOException {
+        return HexUtils.encodeHexString(digest(in));
+    }
+
+    public static DigestUtils of(String algorithm) {
         try {
-            return new MessageDigester(MessageDigest.getInstance(algorithm));
+            return new DigestUtils(MessageDigest.getInstance(algorithm));
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    public static DigestUtils of(MessageDigest digest) {
+        return new DigestUtils(digest);
     }
 
     /**
@@ -58,5 +74,4 @@ public class MessageDigester {
         this.digest.reset();
         return this.digest;
     }
-
 }
