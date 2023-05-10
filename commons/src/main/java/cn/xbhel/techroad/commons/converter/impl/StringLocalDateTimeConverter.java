@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 public class StringLocalDateTimeConverter implements StringConverter<LocalDateTime> {
 
     @Override
-    public LocalDateTime fromStr(String str) {
+    public LocalDateTime fromString(String str) {
         return null;
     }
 
     @Override
-    public String toStr(LocalDateTime object) {
+    public String toString(LocalDateTime object) {
         return null;
     }
 

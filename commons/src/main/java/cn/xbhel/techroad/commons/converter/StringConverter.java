@@ -9,10 +9,10 @@ public interface StringConverter<T> {
     /**
      * 将字符串转换为对象
      */
-    T fromStr(String str);
+    T fromString(String str);
 
     /**
      * 将对象转换为字符串
      */
-    String toStr(T object);
+    String toString(T object);
 }
