@@ -9,7 +9,7 @@ import java.security.interfaces.RSAKey;
  *
  * @author xbhel
  */
-public class RAS extends BlockAsymmetricOperator {
+public class RAS extends AsymmetricCrypto {
 
     /**
      * 创建时可以私钥和公钥可以仅传递其中一个，此时只能用来解密或加密，也可以在后续调用 set 方法进行赋值.
@@ -23,6 +23,16 @@ public class RAS extends BlockAsymmetricOperator {
     }
 
     @Override
+    public byte[] decrypt(byte[] data, int keyType) {
+        if (this.decryptBlockSize < 0) {
+            var key = (RSAKey) getKey(keyType);
+            // 计算 rsa 解密块大小：密钥的长度 / 8
+            this.decryptBlockSize = key.getModulus().bitLength() / 8;
+        }
+        return super.decrypt(data, keyType);
+    }
+
+    @Override
     public byte[] encrypt(byte[] data, int keyType) {
         if (this.encryptBlockSize < 0) {
             var algorithm = AsymmetricAlgorithm.get(this.cipher.getAlgorithm());
@@ -33,16 +43,6 @@ public class RAS extends BlockAsymmetricOperator {
             });
         }
         return super.encrypt(data, keyType);
-    }
-
-    @Override
-    public byte[] decrypt(byte[] data, int keyType) {
-        if (this.decryptBlockSize < 0) {
-            var key = (RSAKey) getKey(keyType);
-            // 计算 rsa 解密块大小：密钥的长度 / 8
-            this.decryptBlockSize = key.getModulus().bitLength() / 8;
-        }
-        return super.decrypt(data, keyType);
     }
 
 }
