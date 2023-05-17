@@ -2,12 +2,13 @@ package cn.xbhel.techroad.commons.secure;
 
 import cn.xbhel.techroad.commons.util.FileUtils;
 
-import java.math.BigInteger;
+import javax.crypto.KeyGenerator;
 import java.nio.file.Path;
 import java.security.*;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 /**
  * 用于生成密钥
@@ -16,9 +17,38 @@ import java.security.spec.*;
  */
 public final class KeyUtils {
 
-    private static final String RSA_ALGORITHM = "RSA";
-
     private KeyUtils() {
+    }
+
+    public static Key getKey(String algorithm) {
+        return getKey(-1, null, algorithm);
+    }
+
+    public static Key getKey(int keySize, String algorithm) {
+        return getKey(keySize, null, algorithm);
+    }
+
+    /**
+     * 使用指定的 seed 生成随机数，然后创建密钥对.
+     * 注意：seed 应该是不可推测的，seed 的随机性影响着算法的安全性，
+     * 一种可行的方案是使用 {@code SecureRandom.generateSeed} 去生成种子.
+     */
+    public static Key getKey(int keySize, byte[] seed, String algorithm) {
+        try {
+            var keyGenerator = KeyGenerator.getInstance(algorithm);
+            var random = new SecureRandom();
+            // 设置种子
+            if (seed != null) random.setSeed(seed);
+            // keySize 没有指定则使用算法默认的
+            if (keySize > 0) {
+                keyGenerator.init(keySize, random);
+            } else {
+                keyGenerator.init(random);
+            }
+            return keyGenerator.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -30,8 +60,6 @@ public final class KeyUtils {
 
     /**
      * 使用指定的 seed 生成随机数，然后创建密钥对.
-     * 注意：seed 应该是不可推测的，seed 的随机性影响着算法的安全性，
-     * 一种可行的方案是使用 {@code SecureRandom.generateSeed} 去生成种子。
      */
     public static KeyPair getKeyPair(int keySize, byte[] seed, String algorithm) {
         try {
@@ -79,7 +107,7 @@ public final class KeyUtils {
         return getPrivateKey(algorithm, keySpec);
     }
 
-    public static PrivateKey getPrivateKey(final String algorithm, KeySpec keySpec) {
+    public static PrivateKey getPrivateKey(String algorithm, KeySpec keySpec) {
         try {
             var keyFactory = KeyFactory.getInstance(algorithm);
             return keyFactory.generatePrivate(keySpec);
@@ -88,22 +116,12 @@ public final class KeyUtils {
         }
     }
 
-    public static PublicKey getPublicKey(final String algorithm, KeySpec keySpec) {
+    public static PublicKey getPublicKey(String algorithm, KeySpec keySpec) {
         try {
             var keyFactory = KeyFactory.getInstance(algorithm);
             return keyFactory.generatePublic(keySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new IllegalStateException(e);
         }
-    }
-
-    public static RSAPublicKey getPublicKey(byte[] modulus, byte[] exponent) {
-        var keySpec = new RSAPublicKeySpec(new BigInteger(modulus), new BigInteger(exponent));
-        return (RSAPublicKey) KeyUtils.getPublicKey(RSA_ALGORITHM, keySpec);
-    }
-
-    public static RSAPrivateKey getPrivateKey(byte[] modulus, byte[] exponent) {
-        var keySpec = new RSAPublicKeySpec(new BigInteger(modulus), new BigInteger(exponent));
-        return (RSAPrivateKey) KeyUtils.getPrivateKey(RSA_ALGORITHM, keySpec);
     }
 }
