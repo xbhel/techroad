@@ -14,7 +14,7 @@ public final class HexUtils {
     private HexUtils() {
     }
 
-    public static String encodeHexString(byte[] data) {
+    public static String encodeString(byte[] data) {
         return new String(encode(data), StandardCharsets.UTF_8);
     }
 

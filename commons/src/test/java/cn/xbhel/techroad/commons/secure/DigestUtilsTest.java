@@ -1,5 +1,6 @@
-package cn.xbhel.techroad.commons.util;
+package cn.xbhel.techroad.commons.secure;
 
+import cn.xbhel.techroad.commons.secure.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
