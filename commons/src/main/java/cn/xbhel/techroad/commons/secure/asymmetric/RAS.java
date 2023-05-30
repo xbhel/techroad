@@ -1,8 +1,15 @@
 package cn.xbhel.techroad.commons.secure.asymmetric;
 
+import cn.xbhel.techroad.commons.secure.KeyUtils;
+
+import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 
 /**
  * RSA 加密算法
@@ -43,6 +50,22 @@ public class RAS extends AsymmetricCryptoImpl {
             });
         }
         return super.encrypt(data, keyType);
+    }
+
+    /**
+     * 根据模数和指数生成密钥
+     *
+     * @param modules  RSA 模数
+     * @param exponent RSA 指数
+     */
+    public static RSAPrivateKey getPrivateKey(byte[] modules, byte[] exponent) {
+        var privateKeySpec = new RSAPrivateKeySpec(new BigInteger(modules), new BigInteger(exponent));
+        return (RSAPrivateKey) KeyUtils.getPrivateKey(AsymmetricAlgorithm.RSA.getName(), privateKeySpec);
+    }
+
+    public static RSAPublicKey generatePublicKey(byte[] modules, byte[] exponent) {
+        var publicKeySpec = new RSAPublicKeySpec(new BigInteger(modules), new BigInteger(exponent));
+        return (RSAPublicKey) KeyUtils.getPublicKey(AsymmetricAlgorithm.RSA.getName(), publicKeySpec);
     }
 
 }
