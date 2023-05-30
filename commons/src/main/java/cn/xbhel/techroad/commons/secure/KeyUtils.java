@@ -54,14 +54,14 @@ public final class KeyUtils {
     /**
      * 创建密钥对
      */
-    public static KeyPair getKeyPair(int keySize, String algorithm) {
-        return getKeyPair(keySize, null, algorithm);
+    public static KeyPair getKeyPair(String algorithm, int keySize) {
+        return getKeyPair(algorithm, keySize, null);
     }
 
     /**
      * 使用指定的 seed 生成随机数，然后创建密钥对.
      */
-    public static KeyPair getKeyPair(int keySize, byte[] seed, String algorithm) {
+    public static KeyPair getKeyPair(String algorithm, int keySize, byte[] seed) {
         try {
             var keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
             var random = new SecureRandom();
