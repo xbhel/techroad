@@ -10,9 +10,10 @@ import java.util.Objects;
 
 /**
  * 非对称加密通用逻辑
+ *
  * @author xbhel
  */
-public abstract class AbstractAsymmetricCrypto implements AsymmetricCrypto{
+public abstract class AbstractAsymmetricCrypto implements AsymmetricCrypto {
 
     protected Cipher cipher;
     protected PublicKey publicKey;

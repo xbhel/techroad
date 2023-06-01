@@ -53,7 +53,7 @@ public class RAS extends AsymmetricCryptoImpl {
     }
 
     /**
-     * 根据模数和指数生成密钥
+     * 根据模数和指数生成私钥
      *
      * @param modules  RSA 模数
      * @param exponent RSA 指数
@@ -63,6 +63,12 @@ public class RAS extends AsymmetricCryptoImpl {
         return (RSAPrivateKey) KeyUtils.getPrivateKey(AsymmetricAlgorithm.RSA.getName(), privateKeySpec);
     }
 
+    /**
+     * 根据模数和指数生成公钥
+     *
+     * @param modules  RSA 模数
+     * @param exponent RSA 指数
+     */
     public static RSAPublicKey generatePublicKey(byte[] modules, byte[] exponent) {
         var publicKeySpec = new RSAPublicKeySpec(new BigInteger(modules), new BigInteger(exponent));
         return (RSAPublicKey) KeyUtils.getPublicKey(AsymmetricAlgorithm.RSA.getName(), publicKeySpec);

@@ -1,7 +1,5 @@
 package cn.xbhel.techroad.commons.secure.asymmetric;
 
-import cn.xbhel.techroad.commons.secure.KeyUtils;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -29,7 +27,7 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
      * @param publicKey  私钥
      * @param privateKey 公钥
      */
-    protected AsymmetricCryptoImpl(String algorithm, PublicKey publicKey, PrivateKey privateKey) {
+    public AsymmetricCryptoImpl(String algorithm, PublicKey publicKey, PrivateKey privateKey) {
         super(algorithm, publicKey, privateKey);
     }
 
