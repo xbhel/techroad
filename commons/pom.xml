@@ -7,6 +7,7 @@
     <groupId>cn.xbhel.techroad</groupId>
     <artifactId>commons</artifactId>
     <version>0.0.1</version>
+    <description>This is a utility-library.</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

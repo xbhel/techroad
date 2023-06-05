@@ -5,8 +5,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 
 /**
  * 非对称加密算法
@@ -23,12 +21,10 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
     /**
      * 创建时可以私钥和公钥可以仅传递其中一个，此时只能用来解密或加密，也可以在后续调用 set 方法进行赋值.
      *
-     * @param algorithm  算法
-     * @param publicKey  私钥
-     * @param privateKey 公钥
+     * @param asymmetricProps 非对称加密属性对象
      */
-    public AsymmetricCryptoImpl(String algorithm, PublicKey publicKey, PrivateKey privateKey) {
-        super(algorithm, publicKey, privateKey);
+    public AsymmetricCryptoImpl(AsymmetricProps asymmetricProps) {
+        super(asymmetricProps.getAlgorithm(), asymmetricProps.getPublicKey(), asymmetricProps.getPrivateKey());
     }
 
     @Override
@@ -92,5 +88,23 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
             }
             return bytesStream.toByteArray();
         }
+    }
+
+    public int getEncryptBlockSize() {
+        return encryptBlockSize;
+    }
+
+    public AsymmetricCryptoImpl setEncryptBlockSize(int encryptBlockSize) {
+        this.encryptBlockSize = encryptBlockSize;
+        return this;
+    }
+
+    public int getDecryptBlockSize() {
+        return decryptBlockSize;
+    }
+
+    public AsymmetricCryptoImpl setDecryptBlockSize(int decryptBlockSize) {
+        this.decryptBlockSize = decryptBlockSize;
+        return this;
     }
 }

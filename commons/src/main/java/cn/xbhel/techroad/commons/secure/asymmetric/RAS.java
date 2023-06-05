@@ -3,8 +3,6 @@ package cn.xbhel.techroad.commons.secure.asymmetric;
 import cn.xbhel.techroad.commons.secure.KeyUtils;
 
 import java.math.BigInteger;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.interfaces.RSAKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -20,13 +18,10 @@ public class RAS extends AsymmetricCryptoImpl {
 
     /**
      * 创建时可以私钥和公钥可以仅传递其中一个，此时只能用来解密或加密，也可以在后续调用 set 方法进行赋值.
-     *
-     * @param algorithm  算法
-     * @param publicKey  私钥
-     * @param privateKey 公钥
+     * @param asymmetricProps 非对称加密属性对象
      */
-    public RAS(String algorithm, PublicKey publicKey, PrivateKey privateKey) {
-        super(algorithm, publicKey, privateKey);
+    public RAS(AsymmetricProps asymmetricProps) {
+        super(asymmetricProps);
     }
 
     @Override
