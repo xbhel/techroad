@@ -15,16 +15,20 @@ import java.io.IOException;
  */
 public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
 
+    /**
+     * 默认为 -1，此时调用 {@link Cipher#getBlockSize()} 获取加/解密块大小，
+     * 默认 JDK 实现不一定能够获取到块大小，使用 BouncyCastle 实现可以解决这一点
+     */
     protected int encryptBlockSize = -1;
     protected int decryptBlockSize = -1;
 
     /**
      * 创建时可以私钥和公钥可以仅传递其中一个，此时只能用来解密或加密，也可以在后续调用 set 方法进行赋值.
      *
-     * @param asymmetricProps 非对称加密属性对象
+     * @param param 非对称加密参数对象
      */
-    public AsymmetricCryptoImpl(AsymmetricProps asymmetricProps) {
-        super(asymmetricProps.getAlgorithm(), asymmetricProps.getPublicKey(), asymmetricProps.getPrivateKey());
+    public AsymmetricCryptoImpl(AsymmetricParam param) {
+        super(param.getAlgorithm(), param.getPublicKey(), param.getPrivateKey());
     }
 
     @Override
@@ -94,17 +98,16 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
         return encryptBlockSize;
     }
 
-    public AsymmetricCryptoImpl setEncryptBlockSize(int encryptBlockSize) {
+    public void setEncryptBlockSize(int encryptBlockSize) {
         this.encryptBlockSize = encryptBlockSize;
-        return this;
     }
 
     public int getDecryptBlockSize() {
         return decryptBlockSize;
     }
 
-    public AsymmetricCryptoImpl setDecryptBlockSize(int decryptBlockSize) {
+    public void setDecryptBlockSize(int decryptBlockSize) {
         this.decryptBlockSize = decryptBlockSize;
-        return this;
     }
+
 }

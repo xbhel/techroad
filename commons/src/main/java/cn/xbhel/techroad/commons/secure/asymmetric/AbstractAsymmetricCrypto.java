@@ -1,5 +1,7 @@
 package cn.xbhel.techroad.commons.secure.asymmetric;
 
+import cn.xbhel.techroad.commons.secure.GlobalProvider;
+
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import java.security.Key;
@@ -62,8 +64,9 @@ public abstract class AbstractAsymmetricCrypto implements AsymmetricCrypto {
 
     private static Cipher initCipher(String algorithm) {
         try {
-            return Cipher.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            return Cipher.getInstance(algorithm, GlobalProvider.INSTANCE.getProvider());
+        } catch (NoSuchAlgorithmException
+                | NoSuchPaddingException e) {
             throw new IllegalStateException(e);
         }
     }

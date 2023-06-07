@@ -1,5 +1,6 @@
 package cn.xbhel.techroad.commons.secure.asymmetric;
 
+import javax.crypto.Cipher;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +14,8 @@ import java.util.stream.Collectors;
  */
 public enum AsymmetricAlgorithm {
 
-    RSA("RSA", 11, 1024);
+    RSA("RSA", 11, 1024),
+    RSA_ECB_PKCS1("RSA/ECB/PKCS1Padding", 11, 1024);
 
     /**
      * key: algorithmName, value: AsymmetricAlgorithm
@@ -32,7 +34,8 @@ public enum AsymmetricAlgorithm {
     private final String name;
 
     /**
-     * 加密块填充字节的长度
+     * 加密块填充字节的长度，用于计算加密块大小，-1 表示自动获取，无需计算，
+     * 将调用 {@link Cipher#getBlockSize()} 进行获取
      */
     private final int paddingSize;
 

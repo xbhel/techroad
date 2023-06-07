@@ -3,6 +3,7 @@ package cn.xbhel.techroad.commons.secure;
 import cn.xbhel.techroad.commons.util.FileUtils;
 
 import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.nio.file.Path;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -20,11 +21,11 @@ public final class KeyUtils {
     private KeyUtils() {
     }
 
-    public static Key getKey(String algorithm) {
+    public static SecretKey getKey(String algorithm) {
         return getKey(-1, null, algorithm);
     }
 
-    public static Key getKey(int keySize, String algorithm) {
+    public static SecretKey getKey(int keySize, String algorithm) {
         return getKey(keySize, null, algorithm);
     }
 
@@ -33,7 +34,7 @@ public final class KeyUtils {
      * 注意：seed 应该是不可推测的，seed 的随机性影响着算法的安全性，
      * 一种可行的方案是使用 {@code SecureRandom.generateSeed} 去生成种子.
      */
-    public static Key getKey(int keySize, byte[] seed, String algorithm) {
+    public static SecretKey getKey(int keySize, byte[] seed, String algorithm) {
         try {
             var keyGenerator = KeyGenerator.getInstance(algorithm);
             var random = new SecureRandom();
@@ -63,7 +64,8 @@ public final class KeyUtils {
      */
     public static KeyPair getKeyPair(String algorithm, int keySize, byte[] seed) {
         try {
-            var keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
+            var keyPairGenerator = KeyPairGenerator.getInstance(algorithm,
+                    GlobalProvider.INSTANCE.getProvider());
             var random = new SecureRandom();
             if (seed != null) random.setSeed(seed);
             keyPairGenerator.initialize(keySize, random);
@@ -109,7 +111,8 @@ public final class KeyUtils {
 
     public static PrivateKey getPrivateKey(String algorithm, KeySpec keySpec) {
         try {
-            var keyFactory = KeyFactory.getInstance(algorithm);
+            var keyFactory = KeyFactory.getInstance(algorithm,
+                    GlobalProvider.INSTANCE.getProvider());
             return keyFactory.generatePrivate(keySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new IllegalStateException(e);
@@ -118,7 +121,8 @@ public final class KeyUtils {
 
     public static PublicKey getPublicKey(String algorithm, KeySpec keySpec) {
         try {
-            var keyFactory = KeyFactory.getInstance(algorithm);
+            var keyFactory = KeyFactory.getInstance(algorithm,
+                    GlobalProvider.INSTANCE.getProvider());
             return keyFactory.generatePublic(keySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new IllegalStateException(e);
