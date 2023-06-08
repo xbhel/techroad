@@ -1,6 +1,4 @@
-package cn.xbhel.techroad.commons.secure;
-
-import cn.xbhel.techroad.commons.util.DigestUtils;
+package cn.xbhel.techroad.commons.secure.digest;
 
 /**
  * MD5 消息摘要算法是一种密码破译但仍被广泛使用的散列函数，可生成 128 位(16个字符)散列值，

@@ -1,4 +1,6 @@
-package cn.xbhel.techroad.commons.util;
+package cn.xbhel.techroad.commons.secure.digest;
+
+import cn.xbhel.techroad.commons.util.HexUtils;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -29,7 +31,7 @@ public final class DigestUtils {
     }
 
     public String digestToHex(byte[] data) {
-        return HexUtils.encodeHexString(digest(data));
+        return HexUtils.encodeString(digest(data));
     }
 
     public byte[] digest(File file) throws IOException {
@@ -39,7 +41,7 @@ public final class DigestUtils {
     }
 
     public String digestToHex(File file) throws IOException {
-        return HexUtils.encodeHexString(digest(file));
+        return HexUtils.encodeString(digest(file));
     }
 
     public byte[] digest(InputStream in) throws IOException {
@@ -52,7 +54,7 @@ public final class DigestUtils {
     }
 
     public String digestToHex(InputStream in) throws IOException {
-        return HexUtils.encodeHexString(digest(in));
+        return HexUtils.encodeString(digest(in));
     }
 
     public static DigestUtils of(String algorithm) {
