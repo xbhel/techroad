@@ -1,10 +1,9 @@
 package cn.xbhel.techroad.commons.secure;
 
-import cn.xbhel.techroad.commons.util.FileUtils;
-
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.nio.file.Path;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -36,10 +35,12 @@ public final class KeyUtils {
      */
     public static SecretKey getKey(int keySize, byte[] seed, String algorithm) {
         try {
-            var keyGenerator = KeyGenerator.getInstance(algorithm);
+            var keyGenerator = KeyGenerator.getInstance(getMainAlgorithm(algorithm));
             var random = new SecureRandom();
             // 设置种子
-            if (seed != null) random.setSeed(seed);
+            if (seed != null) {
+                random.setSeed(seed);
+            }
             // keySize 没有指定则使用算法默认的
             if (keySize > 0) {
                 keyGenerator.init(keySize, random);
@@ -48,7 +49,7 @@ public final class KeyUtils {
             }
             return keyGenerator.generateKey();
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
+            throw new CryptoException(e);
         }
     }
 
@@ -64,29 +65,39 @@ public final class KeyUtils {
      */
     public static KeyPair getKeyPair(String algorithm, int keySize, byte[] seed) {
         try {
-            var keyPairGenerator = KeyPairGenerator.getInstance(algorithm,
-                    GlobalProvider.INSTANCE.getProvider());
+            var keyPairGenerator = KeyPairGenerator.getInstance(
+                    getMainAlgorithm(algorithm), GlobalProvider.INSTANCE.getProvider());
             var random = new SecureRandom();
-            if (seed != null) random.setSeed(seed);
+            if (seed != null) {
+                random.setSeed(seed);
+            }
             keyPairGenerator.initialize(keySize, random);
             return keyPairGenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
+            throw new CryptoException(e);
         }
     }
 
     /**
-     * 从指定路径获取公钥
+     * 从流中获取公钥
      */
-    public static PublicKey getPublicKey(String algorithm, Path path) {
-        return getPublicKey(algorithm, FileUtils.readAllBytes(path));
+    public static PublicKey getPublicKey(String algorithm, InputStream in) {
+        try {
+            return getPublicKey(algorithm, in.readAllBytes());
+        } catch (IOException e) {
+            throw new CryptoException(e);
+        }
     }
 
     /**
-     * 从指定路径获取私钥
+     * 从流中获取私钥
      */
-    public static PrivateKey getPrivateKey(String algorithm, Path path) {
-        return getPrivateKey(algorithm, FileUtils.readAllBytes(path));
+    public static PrivateKey getPrivateKey(String algorithm, InputStream in) {
+        try {
+            return getPrivateKey(algorithm, in.readAllBytes());
+        } catch (IOException e) {
+            throw new CryptoException(e);
+        }
     }
 
     /**
@@ -109,23 +120,48 @@ public final class KeyUtils {
         return getPrivateKey(algorithm, keySpec);
     }
 
+    /**
+     * 根据算法和 {@link KeySpec} 创建私钥
+     */
     public static PrivateKey getPrivateKey(String algorithm, KeySpec keySpec) {
         try {
-            var keyFactory = KeyFactory.getInstance(algorithm,
-                    GlobalProvider.INSTANCE.getProvider());
-            return keyFactory.generatePrivate(keySpec);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            return getKeyFactory(algorithm).generatePrivate(keySpec);
+        } catch (InvalidKeySpecException e) {
             throw new IllegalStateException(e);
         }
     }
 
+    /**
+     * 根据算法和 {@link KeySpec} 创建公钥
+     */
     public static PublicKey getPublicKey(String algorithm, KeySpec keySpec) {
         try {
-            var keyFactory = KeyFactory.getInstance(algorithm,
-                    GlobalProvider.INSTANCE.getProvider());
-            return keyFactory.generatePublic(keySpec);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new IllegalStateException(e);
+            return getKeyFactory(algorithm).generatePublic(keySpec);
+        } catch (InvalidKeySpecException e) {
+            throw new CryptoException(e);
         }
+    }
+
+    /**
+     * 根据算法创建 KeyFactory
+     */
+    public static KeyFactory getKeyFactory(String algorithm) {
+        algorithm = getMainAlgorithm(algorithm);
+        try {
+            return KeyFactory.getInstance(algorithm, GlobalProvider.INSTANCE.getProvider());
+        } catch (NoSuchAlgorithmException e) {
+            throw new CryptoException(e);
+        }
+    }
+
+    /**
+     * 获取密钥主体算法
+     */
+    public static String getMainAlgorithm(String algorithm) {
+        final int slashIndex = algorithm.indexOf('/');
+        if (slashIndex > 0) {
+            return algorithm.substring(0, slashIndex);
+        }
+        return algorithm;
     }
 }

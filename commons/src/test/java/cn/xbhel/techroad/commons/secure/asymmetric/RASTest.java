@@ -1,6 +1,7 @@
 package cn.xbhel.techroad.commons.secure.asymmetric;
 
 import cn.xbhel.techroad.commons.secure.KeyUtils;
+import cn.xbhel.techroad.commons.util.ByteUtils;
 import org.junit.jupiter.api.Test;
 
 import static cn.xbhel.techroad.commons.secure.asymmetric.AsymmetricParam.of;
@@ -9,29 +10,53 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RASTest {
 
     @Test
-    void shouldCreate_RSA() {
-        assertCreateRSA(AsymmetricAlgorithm.RSA);
+    void testCreateByEnum() {
+        var rsa = new RAS(of(AsymmetricAlgorithm.RSA));
+        assertThat(rsa).isNotNull();
     }
 
     @Test
-    void shouldCreate_RSA_ECB_PKCS1(){
-        // TODO 算法生成密钥逻辑判断，密钥生成算法是不需要 Mode/Padding 的
-        assertCreateRSA(AsymmetricAlgorithm.RSA_ECB_PKCS1);
+    void testCreateByAlgorithmAndKeySize() {
+        var rsa = new RAS(of("RSA", 2048));
+        assertThat(rsa).isNotNull();
     }
 
-    private void assertCreateRSA(AsymmetricAlgorithm algorithm) {
-        // 1
-        var rsa1 = new RAS(of(algorithm));
-        assertThat(rsa1).isNotNull();
-
-        // 2
-        var rsa2 = new RAS(of(algorithm.getName(), algorithm.getKeySize()));
-        assertThat(rsa2).isNotNull();
-
-        // 3
-        var keyPair = KeyUtils.getKeyPair(algorithm.getName(), algorithm.getKeySize());
-        var rsa3 = new RAS(of(algorithm.getName(), keyPair.getPublic(), keyPair.getPrivate()));
-        assertThat(rsa3).isNotNull();
+    @Test
+    void testCreateByAlgorithmAndKey() {
+        var keyPair = KeyUtils.getKeyPair("RSA", 2048);
+        var rsa = new RAS(of("RSA", keyPair.getPublic(), keyPair.getPrivate()));
+        assertThat(rsa).isNotNull();
     }
 
+    @Test
+    void testRSA() {
+        var rsa = new RAS(of(AsymmetricAlgorithm.RSA));
+        assertThat(rsa.getPrivateKey()).isNotNull();
+        assertThat(rsa.getPublicKey()).isNotNull();
+
+        // 加密
+        byte[] encryptData = rsa.encrypt(ByteUtils.toBytes("【山丘】李宗盛 - 我没有刻意隐藏，也无意让你感伤."),
+                AsymmetricCrypto.KeyType.PUBLIC_KEY);
+        assertThat(encryptData).isNotEmpty();
+
+        // 解密
+        byte[] decryptData = rsa.decrypt(encryptData, AsymmetricCrypto.KeyType.PRIVATE_KEY);
+        assertThat(ByteUtils.toString(decryptData)).isEqualTo("【山丘】李宗盛 - 我没有刻意隐藏，也无意让你感伤.");
+    }
+
+    @Test
+    void testRSA_ECB_PKCS1() {
+        var rsa = new RAS(of("RSA/ECB/PKCS1Padding", 2048));
+        assertThat(rsa.getPrivateKey()).isNotNull();
+        assertThat(rsa.getPublicKey()).isNotNull();
+
+        // 加密
+        byte[] encryptData = rsa.encrypt(ByteUtils.toBytes("【山丘】李宗盛 - 我没有刻意隐藏，也无意让你感伤."),
+                AsymmetricCrypto.KeyType.PUBLIC_KEY);
+        assertThat(encryptData).isNotEmpty();
+
+        // 解密
+        byte[] decryptData = rsa.decrypt(encryptData, AsymmetricCrypto.KeyType.PRIVATE_KEY);
+        assertThat(ByteUtils.toString(decryptData)).isEqualTo("【山丘】李宗盛 - 我没有刻意隐藏，也无意让你感伤.");
+    }
 }
