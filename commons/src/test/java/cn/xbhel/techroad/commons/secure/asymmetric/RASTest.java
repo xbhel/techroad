@@ -15,6 +15,7 @@ class RASTest {
 
     @Test
     void shouldCreate_RSA_ECB_PKCS1(){
+        // TODO 算法生成密钥逻辑判断，密钥生成算法是不需要 Mode/Padding 的
         assertCreateRSA(AsymmetricAlgorithm.RSA_ECB_PKCS1);
     }
 
