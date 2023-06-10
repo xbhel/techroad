@@ -21,11 +21,11 @@ public final class KeyUtils {
     }
 
     public static SecretKey getKey(String algorithm) {
-        return getKey(algorithm, -1, null);
+        return getKey(algorithm, -1, (byte[]) null);
     }
 
     public static SecretKey getKey(int keySize, String algorithm) {
-        return getKey(algorithm, keySize, null);
+        return getKey(algorithm, keySize, (byte[])  null);
     }
 
     /**
