@@ -21,11 +21,11 @@ public final class KeyUtils {
     }
 
     public static SecretKey getKey(String algorithm) {
-        return getKey(-1, null, algorithm);
+        return getKey(algorithm, -1, null);
     }
 
     public static SecretKey getKey(int keySize, String algorithm) {
-        return getKey(keySize, null, algorithm);
+        return getKey(algorithm, keySize, null);
     }
 
     /**
@@ -33,14 +33,16 @@ public final class KeyUtils {
      * 注意：seed 应该是不可推测的，seed 的随机性影响着算法的安全性，
      * 一种可行的方案是使用 {@code SecureRandom.generateSeed} 去生成种子.
      */
-    public static SecretKey getKey(int keySize, byte[] seed, String algorithm) {
+    public static SecretKey getKey(String algorithm, int keySize, byte[] seed) {
+        var random = new SecureRandom();
+        if (seed != null) random.setSeed(seed);
+        return getKey(algorithm, keySize, random);
+    }
+
+    public static SecretKey getKey(String algorithm, int keySize, SecureRandom random) {
         try {
-            var keyGenerator = KeyGenerator.getInstance(getMainAlgorithm(algorithm));
-            var random = new SecureRandom();
-            // 设置种子
-            if (seed != null) {
-                random.setSeed(seed);
-            }
+            var keyGenerator = KeyGenerator.getInstance(
+                    getMainAlgorithm(algorithm), GlobalProvider.INSTANCE.getProvider());
             // keySize 没有指定则使用算法默认的
             if (keySize > 0) {
                 keyGenerator.init(keySize, random);
