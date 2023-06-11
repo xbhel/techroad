@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class FIFOCache<K, V> extends AbstractSimpleCache<K, V> {
 
+    private static final long serialVersionUID = 1L;
+
     public FIFOCache(final int maxSize) {
         // initialCapacity = maxSize + 1 是为了避免当满足触发条件时导致扩容.
         // loadFactor = 1 也是避免当达到 0.75 时就发生扩容，我们缓存的大小是固定的，不需要扩容.

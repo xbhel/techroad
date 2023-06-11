@@ -10,26 +10,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RASTest {
 
     @Test
-    void testCreateByEnum() {
+    void createByEnum() {
         var rsa = new RAS(of(AsymmetricAlgorithm.RSA));
         assertThat(rsa).isNotNull();
     }
 
     @Test
-    void testCreateByAlgorithmAndKeySize() {
+    void createByAlgorithmAndKeySize() {
         var rsa = new RAS(of("RSA", 2048));
         assertThat(rsa).isNotNull();
     }
 
     @Test
-    void testCreateByAlgorithmAndKey() {
+    void createByAlgorithmAndKey() {
         var keyPair = KeyUtils.getKeyPair("RSA", 2048);
         var rsa = new RAS(of("RSA", keyPair.getPublic(), keyPair.getPrivate()));
         assertThat(rsa).isNotNull();
     }
 
     @Test
-    void testRSA() {
+    void rsa() {
         var rsa = new RAS(of(AsymmetricAlgorithm.RSA));
         assertThat(rsa.getPrivateKey()).isNotNull();
         assertThat(rsa.getPublicKey()).isNotNull();
@@ -45,7 +45,7 @@ class RASTest {
     }
 
     @Test
-    void testRSA_ECB_PKCS1() {
+    void rsa_ecb_pkcs1() {
         var rsa = new RAS(of("RSA/ECB/PKCS1Padding", 2048));
         assertThat(rsa.getPrivateKey()).isNotNull();
         assertThat(rsa.getPublicKey()).isNotNull();
