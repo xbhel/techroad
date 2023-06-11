@@ -1,6 +1,5 @@
-package cn.xbhel.techroad.commons.secure;
+package cn.xbhel.techroad.commons.secure.digest;
 
-import cn.xbhel.techroad.commons.secure.digest.ThreadLocalMD5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

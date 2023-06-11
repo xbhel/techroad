@@ -20,12 +20,8 @@ public final class KeyUtils {
     private KeyUtils() {
     }
 
-    public static SecretKey getKey(String algorithm) {
-        return getKey(algorithm, -1, (byte[]) null);
-    }
-
-    public static SecretKey getKey(int keySize, String algorithm) {
-        return getKey(algorithm, keySize, (byte[])  null);
+    public static SecretKey getKey(String algorithm, int keySize) {
+        return getKey(algorithm, keySize, (byte[]) null);
     }
 
     /**

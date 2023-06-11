@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public class LRUCache<K, V> extends AbstractSimpleCache<K, V> {
 
+    private static final long serialVersionUID = 1L;
+
     public LRUCache(final int maxSize) {
         super(new LinkedHashMap<>(maxSize + 1, 1, true) {
             @Override

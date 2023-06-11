@@ -40,7 +40,7 @@ public enum AsymmetricAlgorithm {
     private final int paddingSize;
 
     /**
-     * 密钥长度
+     * 算法密钥长度
      */
     private final int keySize;
 
