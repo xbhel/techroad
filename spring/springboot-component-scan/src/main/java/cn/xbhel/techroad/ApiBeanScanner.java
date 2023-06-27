@@ -10,9 +10,9 @@ import java.util.Set;
 /**
  * @author xbhel
  */
-public class DescriptionBeanScanner extends ClassPathBeanDefinitionScanner {
+public class ApiBeanScanner extends ClassPathBeanDefinitionScanner {
 
-    public DescriptionBeanScanner(BeanDefinitionRegistry registry) {
+    public ApiBeanScanner(BeanDefinitionRegistry registry) {
         super(registry);
     }
 

@@ -19,6 +19,7 @@
     
     <modules>
         <module>springboot-component-scan</module>
+        <module>springboot-file-upload-download</module>
     </modules>
 
     <properties>
@@ -48,6 +49,16 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <!--  添加该依赖后，在编写 application-${env}.* 配置文件时会有相关配置属性的提示，包括自定义配置类 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

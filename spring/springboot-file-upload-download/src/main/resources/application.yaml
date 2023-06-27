@@ -1,0 +1,12 @@
+spring:
+  servlet:
+    multipart:
+      # 0 表示使用默认值，默认为 10M
+      # 文件写入磁盘的阈值，超过该大小之后文件将写入磁盘，否则会先储存在内存中
+      file-size-threshold: 0
+      # 存储文件的临时目录，默认为系统临时目录
+      location: /temp
+      # 单个文件最多大小，默认为 10M
+      max-file-size: 100MB
+      # 单次请求允许上传的文件最大大小，默认为 10M
+      max-request-size: 100MB
