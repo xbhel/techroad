@@ -1,5 +1,6 @@
 package cn.xbhel.techroad.controller;
 
+import cn.xbhel.techroad.commons.httpassist.ResultVo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 public class FileController {
 
     @PostMapping("/upload")
-    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok("id by hash(file-path) generate");
+    public ResultVo<Object> upload(@RequestParam("file") MultipartFile file) {
+        return ResultVo.success(null);
     }
 
     @GetMapping("/download")
