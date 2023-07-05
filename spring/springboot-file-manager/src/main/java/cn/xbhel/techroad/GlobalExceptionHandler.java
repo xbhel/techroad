@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * 全局异常处理器
+ * @author xbhel
+ */
 @Slf4j
 @RestControllerAdvice(basePackageClasses = {FileController.class}, annotations = RestController.class)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {

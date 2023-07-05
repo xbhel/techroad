@@ -2,6 +2,8 @@ package cn.xbhel.techroad.commons.secure;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
@@ -18,6 +20,16 @@ import java.security.spec.X509EncodedKeySpec;
 public final class KeyUtils {
 
     private KeyUtils() {
+    }
+
+    public static SecretKey getKey(String algorithm, byte[] key) {
+        var keySpec = new SecretKeySpec(key, algorithm);
+        try {
+            var factory = SecretKeyFactory.getInstance(algorithm, GlobalProvider.INSTANCE.getProvider());
+            return factory.generateSecret(keySpec);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new CryptoException(e);
+        }
     }
 
     public static SecretKey getKey(String algorithm, int keySize) {

@@ -1,5 +1,6 @@
 package cn.xbhel.techroad.commons.yaml;
 
+import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.TextNode;
 
@@ -32,7 +33,7 @@ public class PropJsonNodeFactory extends JsonNodeFactory {
     public TextNode textNode(String text) {
         String propValue = text;
         // 按顺序调用 PropHandle 进行处理，依次将前一个处理后的值传入下一个 PropHandle 进行处理
-        if (propHandlers != null && !propHandlers.isEmpty()) {
+        if (CollUtil.isNotEmpty(propHandlers)) {
             for (PropHandler propHandler : propHandlers) {
                 if (propHandler.isSupport(propValue)) {
                     propValue = propHandler.handle(propValue);
