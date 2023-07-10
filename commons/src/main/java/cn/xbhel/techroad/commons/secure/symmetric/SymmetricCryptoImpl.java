@@ -16,7 +16,7 @@ import java.security.spec.AlgorithmParameterSpec;
  */
 public class SymmetricCryptoImpl extends AbstractSymmetricCrypto {
 
-    private AlgorithmParameterSpec algorithmParameterSpec;
+    protected AlgorithmParameterSpec algorithmParameterSpec;
 
     public SymmetricCryptoImpl(String algorithm, SecretKey key) {
         super(algorithm, key);

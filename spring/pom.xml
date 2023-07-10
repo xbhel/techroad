@@ -19,7 +19,8 @@
     
     <modules>
         <module>springboot-component-scan</module>
-        <module>springboot-file-upload-download</module>
+        <module>springboot-file-manager</module>
+        <module>springboot-commons</module>
     </modules>
 
     <properties>

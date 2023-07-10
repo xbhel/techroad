@@ -11,6 +11,8 @@ import javax.crypto.spec.IvParameterSpec;
  * AES 是目前最常用的对称加密算法之一。它支持不同的密钥长度（128、192 或 256 位），
  * 并被广泛用于保护敏感数据的安全性。AES 算法具有较高的安全性和性能，在许多应用中被广泛采用，
  * 包括网络通信、数据存储等领域。
+ * <p/>
+ * 加密和解密的密钥要一致才能正常加解密。
  *
  * @author xbhel
  */
@@ -23,7 +25,7 @@ public class AES extends SymmetricCryptoImpl {
     public AES(String algorithm, SecretKey key, byte[] iv) {
         super(algorithm, key);
         if (PrimitiveArrayUtil.isNotEmpty(iv)) {
-            setAlgorithmParameterSpec(new IvParameterSpec(iv));
+            this.algorithmParameterSpec = new IvParameterSpec(iv);
         }
     }
 

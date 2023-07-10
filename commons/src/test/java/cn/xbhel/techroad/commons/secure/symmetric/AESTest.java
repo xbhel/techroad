@@ -71,6 +71,7 @@ class AESTest {
         // gcm 需要设置 algorithmParameterSpec 才能正常解密
         GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, new byte[GCM_IV_LENGTH]);
         aes.setAlgorithmParameterSpec(gcmParameterSpec);
+
         var largeText = Stream.generate(() -> "this is a piece of text.")
                 .limit(5000)
                 .collect(Collectors.joining());
@@ -81,14 +82,16 @@ class AESTest {
     }
 
     @Test
-    void createKeyThenUseAES() throws NoSuchAlgorithmException {
+    void useSpecialKey() throws NoSuchAlgorithmException {
+        // 创建 key
         byte[] newKey = ByteUtils.toBytes("hello world!");
         MessageDigest sha = MessageDigest.getInstance("SHA-512");
         newKey = sha.digest(newKey);
-        newKey = Arrays.copyOf(newKey, 16);
         // 16 byte = 16 * 8 = 128 位
         // 刚好满足 AES key 的长度
+        newKey = Arrays.copyOf(newKey, 16);
         SecretKeySpec keySpec =  new SecretKeySpec(newKey, "AES");
+
         var aes = new AES(SymmetricAlgorithm.AES.getName(), keySpec);
         var largeText = Stream.generate(() -> "this is a piece of text.")
                 .limit(5000)
@@ -98,4 +101,5 @@ class AESTest {
         assertThat(encrypt).isNotEmpty();
         assertThat(ByteUtils.toString(decrypt)).isEqualTo(largeText);
     }
+
 }

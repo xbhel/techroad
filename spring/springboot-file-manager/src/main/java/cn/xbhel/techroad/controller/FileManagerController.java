@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 @CrossOrigin
 @RestController
 @RequestMapping(("/file"))
-public class FileStoreController {
+public class FileManagerController {
 
     @PostMapping("/upload")
     public ResultVo<Object> upload(@RequestParam("file") MultipartFile file) {

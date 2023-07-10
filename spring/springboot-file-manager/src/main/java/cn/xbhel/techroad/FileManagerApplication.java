@@ -7,10 +7,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author xbhel
  */
 @SpringBootApplication
-public class FileStoreApplication {
+public class FileManagerApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(FileStoreApplication.class).run(args);
+        new SpringApplicationBuilder(FileManagerApplication.class).run(args);
     }
 
 }
