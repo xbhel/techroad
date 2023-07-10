@@ -33,7 +33,7 @@ public final class KeyUtils {
     }
 
     public static SecretKey getKey(String algorithm, int keySize) {
-        return getKey(algorithm, keySize, (byte[]) null);
+        return getKey(algorithm, keySize, new SecureRandom());
     }
 
     /**
@@ -43,7 +43,7 @@ public final class KeyUtils {
      */
     public static SecretKey getKey(String algorithm, int keySize, byte[] seed) {
         var random = new SecureRandom();
-        if (seed != null) random.setSeed(seed);
+        random.setSeed(seed);
         return getKey(algorithm, keySize, random);
     }
 

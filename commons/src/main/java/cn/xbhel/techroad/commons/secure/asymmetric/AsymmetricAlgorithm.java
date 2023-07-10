@@ -15,15 +15,29 @@ import java.util.stream.Collectors;
 public enum AsymmetricAlgorithm {
 
     RSA("RSA", 11, 1024),
-    RSA_ECB_PKCS1("RSA/ECB/PKCS1Padding", 11, 1024);
+
+    RSA_ECB_PKCS1("RSA/ECB/PKCS1Padding", 11, 1024),
+
+    /**
+     * Recommended for RSA;
+     * paddingSize: 66; 使用 -1 表示自动获取
+     */
+    RSA_NONE_OAEP("RSA/None/OAEPWITHSHA-256ANDMGF1PADDING", -1, 1024),
+
+    /**
+     * the ECB mode can be used for RSA when "None" is not available with the security provider used -
+     * in that case, ECB will be treated as "None" for RSA.
+     * paddingSize: 66; 使用 -1 表示自动获取
+     */
+    RSA_ECB_OAEP("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING", 66, 1024);
 
     /**
      * key: algorithmName, value: AsymmetricAlgorithm
      */
-    private static final Map<String, AsymmetricAlgorithm> stateMap;
+    private static final Map<String, AsymmetricAlgorithm> nameWithEnumMap;
 
     static {
-        stateMap = Arrays.stream(AsymmetricAlgorithm.values())
+        nameWithEnumMap = Arrays.stream(AsymmetricAlgorithm.values())
                 .collect(Collectors.toMap(AsymmetricAlgorithm::getName,
                         Function.identity()));
     }
@@ -51,7 +65,7 @@ public enum AsymmetricAlgorithm {
     }
 
     public static Optional<AsymmetricAlgorithm> get(String algorithmName) {
-        return Optional.ofNullable(stateMap.get(algorithmName));
+        return Optional.ofNullable(nameWithEnumMap.get(algorithmName));
     }
 
     public String getName() {

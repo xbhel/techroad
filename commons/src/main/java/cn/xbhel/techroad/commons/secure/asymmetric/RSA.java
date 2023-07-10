@@ -16,14 +16,14 @@ import java.util.function.Consumer;
  *
  * @author xbhel
  */
-public class RAS extends AsymmetricCryptoImpl {
+public class RSA extends AsymmetricCryptoImpl {
 
     /**
      * 创建时可以私钥和公钥可以仅传递其中一个，此时只能用来解密或加密，也可以在后续调用 set 方法进行赋值.
      *
      * @param param 非对称加密属性对象
      */
-    public RAS(AsymmetricParam param) {
+    public RSA(AsymmetricParam param) {
         super(param);
     }
 

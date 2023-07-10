@@ -1,4 +1,4 @@
-package cn.xbhel.techroad.cache.impl;
+package cn.xbhel.techroad.commons.impl;
 
 import cn.xbhel.techroad.commons.cache.impl.FIFOCache;
 import org.junit.jupiter.api.Test;

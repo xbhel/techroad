@@ -7,7 +7,11 @@ package cn.xbhel.techroad.commons.secure.symmetric;
  */
 public enum SymmetricAlgorithm {
 
-    AES("AES", 128);
+    AES("AES", 128),
+    /**
+     * Recommended for block ciphers.
+     */
+    AES_GCM_NOPADDING("AES/GCM/NoPadding", 128);
 
     /**
      * 算法名称
