@@ -7,8 +7,8 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({DescriptionBeanRegistrar.class})
-public @interface DescriptionScan {
+@Import({ApiBeanRegistrar.class})
+public @interface ApiScan {
     /**
      * 要扫描的包
      */

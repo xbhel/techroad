@@ -30,6 +30,8 @@
         <jackson.version>2.14.2</jackson.version>
         <!-- secure -->
         <bouncycastle.version>1.70</bouncycastle.version>
+        <!-- utility -->
+        <hutool.version>5.8.16</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -94,6 +96,11 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

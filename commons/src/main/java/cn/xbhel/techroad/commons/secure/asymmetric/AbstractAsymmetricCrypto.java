@@ -29,7 +29,7 @@ public abstract class AbstractAsymmetricCrypto implements AsymmetricCrypto {
      * @param privateKey 公钥
      */
     protected AbstractAsymmetricCrypto(String algorithm, PublicKey publicKey, PrivateKey privateKey) {
-        this.cipher = initCipher(algorithm);
+        this.cipher = getCipher(algorithm);
         this.privateKey = privateKey;
         this.publicKey = publicKey;
     }
@@ -62,7 +62,7 @@ public abstract class AbstractAsymmetricCrypto implements AsymmetricCrypto {
         this.privateKey = privateKey;
     }
 
-    private static Cipher initCipher(String algorithm) {
+    private static Cipher getCipher(String algorithm) {
         try {
             return Cipher.getInstance(algorithm, GlobalProvider.INSTANCE.getProvider());
         } catch (NoSuchAlgorithmException

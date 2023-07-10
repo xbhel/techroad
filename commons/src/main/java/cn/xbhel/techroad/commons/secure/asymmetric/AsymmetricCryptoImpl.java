@@ -5,6 +5,9 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.spec.AlgorithmParameterSpec;
 
 /**
  * 非对称加密算法
@@ -22,6 +25,9 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
     protected int encryptBlockSize = -1;
     protected int decryptBlockSize = -1;
 
+    private AlgorithmParameterSpec algorithmParameterSpec;
+
+
     /**
      * 创建时可以私钥和公钥可以仅传递其中一个，此时只能用来解密或加密，也可以在后续调用 set 方法进行赋值.
      *
@@ -35,7 +41,7 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
     public byte[] decrypt(byte[] data, KeyType keyType) {
         try {
             // 使用 key 初始化 Cipher
-            this.cipher.init(Cipher.DECRYPT_MODE, getKey(keyType));
+            this.initCipher(Cipher.DECRYPT_MODE, keyType);
             this.decryptBlockSize = getBlockSize(this.decryptBlockSize);
             if (this.decryptBlockSize > 0) {
                 return doFinalWithBlock(this.decryptBlockSize, data);
@@ -49,7 +55,7 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
     @Override
     public byte[] encrypt(byte[] data, KeyType keyType) {
         try {
-            this.cipher.init(Cipher.ENCRYPT_MODE, getKey(keyType));
+            this.initCipher(Cipher.ENCRYPT_MODE, keyType);
             this.encryptBlockSize = getBlockSize(this.encryptBlockSize);
             if (this.encryptBlockSize > 0) {
                 return doFinalWithBlock(this.encryptBlockSize, data);
@@ -94,6 +100,15 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
         }
     }
 
+    private void initCipher(int mode, KeyType keyType)
+            throws InvalidAlgorithmParameterException, InvalidKeyException {
+        if (this.algorithmParameterSpec != null) {
+            this.cipher.init(mode, getKey(keyType), algorithmParameterSpec);
+        } else {
+            this.cipher.init(mode, getKey(keyType));
+        }
+    }
+
     public int getEncryptBlockSize() {
         return encryptBlockSize;
     }
@@ -108,6 +123,14 @@ public class AsymmetricCryptoImpl extends AbstractAsymmetricCrypto {
 
     public void setDecryptBlockSize(int decryptBlockSize) {
         this.decryptBlockSize = decryptBlockSize;
+    }
+
+    public AlgorithmParameterSpec getAlgorithmParameterSpec() {
+        return algorithmParameterSpec;
+    }
+
+    public void setAlgorithmParameterSpec(AlgorithmParameterSpec algorithmParameterSpec) {
+        this.algorithmParameterSpec = algorithmParameterSpec;
     }
 
 }

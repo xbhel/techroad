@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 /**
  * @author xbhel
  */
-@DescriptionScan
+@ApiScan
 @SpringBootApplication
 public class ComponentScanApplication {
 

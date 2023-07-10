@@ -1,0 +1,9 @@
+spring:
+  file-upload:
+    max-file-size: 100MB
+    max-request-size: 100MB
+    file-size-threshold: 20KB
+    temp-location: file:///D:/workspace/temp
+    resolve-lazily: true
+    file-count-size: 100
+    store-location: file:///D:/workspace/upload

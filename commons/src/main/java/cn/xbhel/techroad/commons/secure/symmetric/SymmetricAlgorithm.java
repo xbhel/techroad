@@ -1,11 +1,5 @@
 package cn.xbhel.techroad.commons.secure.symmetric;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 /**
  * 非对此加密算法枚举类
  *
@@ -13,7 +7,11 @@ import java.util.stream.Collectors;
  */
 public enum SymmetricAlgorithm {
 
-    AES("AES", 128);
+    AES("AES", 128),
+    /**
+     * Recommended for block ciphers.
+     */
+    AES_GCM_NOPADDING("AES/GCM/NoPadding", 128);
 
     /**
      * 算法名称

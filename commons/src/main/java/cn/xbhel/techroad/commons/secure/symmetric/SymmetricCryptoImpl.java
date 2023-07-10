@@ -5,6 +5,9 @@ import cn.xbhel.techroad.commons.secure.KeyUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.spec.AlgorithmParameterSpec;
 
 /**
  * 对称加密
@@ -12,6 +15,8 @@ import javax.crypto.SecretKey;
  * @author xbhel
  */
 public class SymmetricCryptoImpl extends AbstractSymmetricCrypto {
+
+    protected AlgorithmParameterSpec algorithmParameterSpec;
 
     public SymmetricCryptoImpl(String algorithm, SecretKey key) {
         super(algorithm, key);
@@ -28,7 +33,7 @@ public class SymmetricCryptoImpl extends AbstractSymmetricCrypto {
     @Override
     public byte[] decrypt(byte[] data) {
         try {
-            this.cipher.init(Cipher.DECRYPT_MODE, this.key);
+            initCipher(Cipher.DECRYPT_MODE);
             return this.cipher.doFinal(data);
         } catch (Exception e) {
             throw new CryptoException(e);
@@ -38,10 +43,26 @@ public class SymmetricCryptoImpl extends AbstractSymmetricCrypto {
     @Override
     public byte[] encrypt(byte[] data) {
         try {
-            this.cipher.init(Cipher.ENCRYPT_MODE, this.key);
+            initCipher(Cipher.ENCRYPT_MODE);
             return this.cipher.doFinal(data);
         } catch (Exception e) {
             throw new CryptoException(e);
         }
+    }
+
+    private void initCipher(int mode) throws InvalidKeyException, InvalidAlgorithmParameterException {
+        if (this.algorithmParameterSpec != null) {
+            this.cipher.init(mode, this.key, algorithmParameterSpec);
+        } else {
+            this.cipher.init(mode, this.key);
+        }
+    }
+
+    public AlgorithmParameterSpec getAlgorithmParameterSpec() {
+        return algorithmParameterSpec;
+    }
+
+    public void setAlgorithmParameterSpec(AlgorithmParameterSpec algorithmParameterSpec) {
+        this.algorithmParameterSpec = algorithmParameterSpec;
     }
 }

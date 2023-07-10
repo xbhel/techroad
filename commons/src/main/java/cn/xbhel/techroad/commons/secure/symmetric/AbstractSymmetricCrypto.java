@@ -13,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
  * @author xbhel
  */
 public abstract class AbstractSymmetricCrypto implements SymmetricCrypto{
-
     protected Cipher cipher;
     protected SecretKey key;
 
