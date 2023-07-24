@@ -1,9 +1,15 @@
-spring:
-  file-upload:
-    max-file-size: 100MB
-    max-request-size: 100MB
-    file-size-threshold: 20KB
-    temp-location: file:///D:/workspace/temp
-    resolve-lazily: true
-    file-count-size: 100
-    store-location: file:///D:/workspace/upload
+#spring:
+#  main:
+#    allow-circular-references: true
+xbhel:
+  file:
+    upload:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 20KB
+      resolve-lazily: true
+      file-count-size: 100
+      temp-location: /workspace/temp
+      location: /workspace/upload
+      allow-file-types: .png,.jpg,.txt,.word,.pdf,.xlsx,.7z,.zip,.md
+      filename-pattern: '^[A-Za-z0-9\\-_.]+$'

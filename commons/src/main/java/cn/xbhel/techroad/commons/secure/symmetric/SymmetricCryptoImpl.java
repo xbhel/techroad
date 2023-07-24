@@ -30,6 +30,10 @@ public class SymmetricCryptoImpl extends AbstractSymmetricCrypto {
         this(algorithm.getName(), algorithm.getKeySize());
     }
 
+    public SymmetricCryptoImpl(SymmetricAlgorithm algorithm, SecretKey key) {
+        this(algorithm.getName(), key);
+    }
+
     @Override
     public byte[] decrypt(byte[] data) {
         try {

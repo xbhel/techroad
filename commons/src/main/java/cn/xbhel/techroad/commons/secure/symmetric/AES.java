@@ -36,4 +36,8 @@ public class AES extends SymmetricCryptoImpl {
     public AES(SymmetricAlgorithm algorithm) {
         super(algorithm);
     }
+
+    public AES(SymmetricAlgorithm algorithm, SecretKey key) {
+        super(algorithm, key);
+    }
 }

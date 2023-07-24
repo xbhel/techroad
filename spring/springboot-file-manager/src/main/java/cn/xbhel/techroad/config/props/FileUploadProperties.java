@@ -1,10 +1,12 @@
-package cn.xbhel.techroad.config;
+package cn.xbhel.techroad.config.props;
+
+import java.util.List;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 
 /**
  * {@link  MultipartProperties}
@@ -13,7 +15,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
  * @author xbhel
  */
 @Data
-@ConfigurationProperties(prefix = "spring.file-upload")
+@ConfigurationProperties("xbhel.file.upload")
 public class FileUploadProperties {
     /**
      * 是否开启文件上传
@@ -32,9 +34,9 @@ public class FileUploadProperties {
     private Long fileCountSize;
 
     /**
-     * 存储文件的位置，用于调用者写入文件内容至该目录
+     * 上传文件存储文件的位置，用于调用者写入文件内容至该目录
      */
-    private String storeLocation;
+    private String location;
 
     /**
      * web 容器接受到文件 (MultipartFile 对象) 存放的 临时/中间 目录，默认是 {code System.getProperty("java.io.tmpdir")}
@@ -64,4 +66,15 @@ public class FileUploadProperties {
      * 设置是否在文件或参数访问时延迟解析，设置为 true 在文件或参数被访问时才解析
      */
     private boolean resolveLazily = false;
+
+    /**
+     * 允许上传的文件类型
+     */
+    private List<String> allowFileTypes;
+
+    /**
+     * 上传文件名称匹配模式，接受一个正则表达式，避免名称中包含非法字符.
+     * 默认名称由 [字母、数字、'-_.'] 组成
+     */
+    private String filenamePattern = "^[A-Za-z0-9\\-_.]+$";
 }

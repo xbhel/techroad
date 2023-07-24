@@ -1,6 +1,6 @@
-package cn.xbhel.techroad;
+package cn.xbhel.techroad.config;
 
-import cn.xbhel.techroad.controller.FileManagerController;
+import cn.xbhel.techroad.controller.FileController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @author xbhel
  */
 @Slf4j
-@RestControllerAdvice(basePackageClasses = {FileManagerController.class}, annotations = RestController.class)
+@RestControllerAdvice(basePackageClasses = {FileController.class}, annotations = RestController.class)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({MaxUploadSizeExceededException.class})

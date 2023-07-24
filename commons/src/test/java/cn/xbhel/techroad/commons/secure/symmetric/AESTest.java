@@ -87,6 +87,7 @@ class AESTest {
         byte[] newKey = ByteUtils.toBytes("hello world!");
         MessageDigest sha = MessageDigest.getInstance("SHA-512");
         newKey = sha.digest(newKey);
+        // 密钥的关键是密钥的长度满足算法密钥的长度
         // 16 byte = 16 * 8 = 128 位
         // 刚好满足 AES key 的长度
         newKey = Arrays.copyOf(newKey, 16);

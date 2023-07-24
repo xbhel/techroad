@@ -50,6 +50,7 @@ public class ApiBeanRegistrar implements ImportBeanDefinitionRegistrar, Resource
                 .map(BeanDefinitionHolder::getBeanDefinition)
                 .forEach(beanDefinition -> {
                     var definition = (GenericBeanDefinition) beanDefinition;
+                    // definition.setInstanceSupplier(); 去定义 bean 的初始化
                     log.info("bean definition {}", definition);
                 });
     }

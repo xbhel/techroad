@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 public abstract class AbstractPropDecryptHandler implements PropHandler {
 
     private static final long serialVersionUID = 1L;
-
     private static final Pattern SYNTAX_EXPRESSION_RULE = Pattern.compile("^(ENC\\().+(\\))$");
 
     protected abstract byte[] decrypt(String encryptValue);
@@ -21,6 +20,9 @@ public abstract class AbstractPropDecryptHandler implements PropHandler {
     @Override
     public String handle(String propValue) {
         var matcher = SYNTAX_EXPRESSION_RULE.matcher(propValue);
+        if(!matcher.matches()) {
+            return propValue;
+        }
         // 获取第一个组结尾 ~ 第二个组开头的内容 => group1 = 'ENC(', group2 = ')'
         var encryptValue = propValue.substring(matcher.end(1), matcher.start(2));
         return ByteUtils.toString(decrypt(encryptValue));

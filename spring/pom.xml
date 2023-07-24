@@ -21,6 +21,7 @@
         <module>springboot-component-scan</module>
         <module>springboot-file-manager</module>
         <module>springboot-commons</module>
+        <module>springboot-bean</module>
     </modules>
 
     <properties>
