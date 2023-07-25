@@ -27,4 +27,9 @@ class PropVariablePlaceholderHandlerTest {
         }
     }
 
+    @Test
+    void shouldUseDefaultValue() {
+        assertEquals("tom", handler.handle("${USER:tom}"));
+    }
+
 }
