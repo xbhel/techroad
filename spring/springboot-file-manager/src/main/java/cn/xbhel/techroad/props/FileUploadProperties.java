@@ -1,12 +1,10 @@
-package cn.xbhel.techroad.config.props;
-
-import java.util.List;
+package cn.xbhel.techroad.props;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 
 /**
  * {@link  MultipartProperties}
@@ -39,8 +37,8 @@ public class FileUploadProperties {
     private String location;
 
     /**
-     * web 容器接受到文件 (MultipartFile 对象) 存放的 临时/中间 目录，默认是 {code System.getProperty("java.io.tmpdir")}
-     * 相对路径表示 {@code System.getProperty("java.io.tmpdir") + tempLocation}.
+     * web 容器接受到文件(MultipartFile 对象)存放的临时目录，默认是 {code System.getProperty("java.io.tmpdir")}
+     * 路径为 {@code System.getProperty("java.io.tmpdir") + tempLocation}.
      * 等于 MultipartProperties#location
      */
     private String tempLocation;
@@ -68,13 +66,14 @@ public class FileUploadProperties {
     private boolean resolveLazily = false;
 
     /**
-     * 允许上传的文件类型
+     * 允许上传的文件类型匹配模式，接受一个正则表达式.
+     * 其实可以和 {@code fileNamePattern} 融合成一个
      */
-    private List<String> allowFileTypes;
+    private String fileTypePattern;
 
     /**
      * 上传文件名称匹配模式，接受一个正则表达式，避免名称中包含非法字符.
      * 默认名称由 [字母、数字、'-_.'] 组成
      */
-    private String filenamePattern = "^[A-Za-z0-9\\-_.]+$";
+    private String fileNamePattern = "^[A-Za-z0-9\\-_.]+$";
 }

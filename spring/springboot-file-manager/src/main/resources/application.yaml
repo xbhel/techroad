@@ -7,9 +7,9 @@ xbhel:
       max-file-size: 100MB
       max-request-size: 100MB
       file-size-threshold: 20KB
-      resolve-lazily: true
       file-count-size: 100
-      temp-location: /workspace/temp
-      location: /workspace/upload
-      allow-file-types: .png,.jpg,.txt,.word,.pdf,.xlsx,.7z,.zip,.md
-      filename-pattern: '^[A-Za-z0-9\\-_.]+$'
+      resolve-lazily: true
+      location: /download/upload
+      temp-location: /downloads/tmp
+      file-type-pattern: '\\.(png|jpg|txt|word|xlsx|7z|zip|md)'
+      file-name-pattern: '^[A-Za-z0-9\\-_.]+$'

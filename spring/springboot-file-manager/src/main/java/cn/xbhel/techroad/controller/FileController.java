@@ -2,7 +2,7 @@ package cn.xbhel.techroad.controller;
 
 import cn.xbhel.techroad.commons.io.DiskFileRepository;
 import cn.xbhel.techroad.commons.io.FileRepository;
-import cn.xbhel.techroad.config.props.FileUploadProperties;
+import cn.xbhel.techroad.props.FileUploadProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,8 +35,9 @@ public class FileController {
     public List<String> upload(@RequestPart("file") MultipartFile[] files) throws IOException {
         List<String> paths = new ArrayList<>(files.length);
         for (MultipartFile f : files) {
+            String fileName = Objects.requireNonNull(f.getOriginalFilename());
             try(InputStream in = f.getInputStream()) {
-                Path path = fileRepository.save(in, Paths.get(Objects.requireNonNull(f.getOriginalFilename())));
+                Path path = fileRepository.save(in, Path.of(fileName));
                 paths.add(path.toString());
             }
         }

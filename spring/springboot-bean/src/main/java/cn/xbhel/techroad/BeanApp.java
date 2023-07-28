@@ -1,14 +1,14 @@
 package cn.xbhel.techroad;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * @author xbhel
  */
 @SpringBootApplication
-public class FileApplication {
+public class BeanApp {
     public static void main(String[] args) {
-        new SpringApplicationBuilder(FileApplication.class).run(args);
+        SpringApplication.run(BeanApp.class, args);
     }
 }

@@ -1,4 +1,4 @@
-package cn.xbhel.techroad.config.props;
+package cn.xbhel.techroad.props;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,9 +19,9 @@ public class FileDownloadProperties {
     private String location;
 
     /**
-     * 允许下载的文件类型
+     * 允许上传的文件类型匹配模式，接受一个正则表达式.
      */
-    private String allowFileTypes;
+    private String fileTypePattern;
 
     /**
      * 下载文件名称匹配模式，接受一个正则表达式，避免名称中包含非法字符.
